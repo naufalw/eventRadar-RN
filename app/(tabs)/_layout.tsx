@@ -17,8 +17,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="clips"
         options={{
-          title: "Event Radar",
+          title: "Clips",
           headerTitleAlign: "left",
+
           headerBackgroundContainerStyle: {
             backgroundColor: "black",
             opacity: 0.1,
