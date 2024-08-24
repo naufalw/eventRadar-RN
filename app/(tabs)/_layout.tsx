@@ -27,11 +27,11 @@ export default function TabLayout() {
           headerBackgroundContainerStyle: {
             backgroundColor: "black",
             opacity: 0.1,
-            paddingBottom: 110,
+            paddingBottom: 100,
           },
           headerTitleStyle: {
             color: "#FFFFFF",
-            fontSize: 28,
+            fontSize: 24,
             fontFamily: "Inter_900Black",
           },
           headerStyle: { backgroundColor: "#000000" },
@@ -44,9 +44,19 @@ export default function TabLayout() {
         options={{
           title: "Create",
           headerTitleAlign: "left",
+          headerTitle: "Create Event",
+          headerBackgroundContainerStyle: {
+            backgroundColor: "black",
+            opacity: 0.1,
+            paddingBottom: 100,
+          },
           headerTitleStyle: {
+            color: "#FFFFFF",
+            fontSize: 24,
             fontFamily: "Inter_900Black",
           },
+          headerStyle: { backgroundColor: "#000000" },
+          headerTransparent: true,
           tabBarIcon: ({ color }) => <TicketPlus color={color} />,
         }}
       />
@@ -55,9 +65,19 @@ export default function TabLayout() {
         options={{
           title: "Radar",
           headerTitleAlign: "left",
+          headerTitle: "Radar",
+          headerBackgroundContainerStyle: {
+            backgroundColor: "black",
+            opacity: 0.1,
+            paddingBottom: 100,
+          },
           headerTitleStyle: {
+            color: "#FFFFFF",
+            fontSize: 24,
             fontFamily: "Inter_900Black",
           },
+          headerStyle: { backgroundColor: "#000000" },
+          headerTransparent: true,
           tabBarIcon: ({ color }) => <Radar color={color} />,
         }}
       />
