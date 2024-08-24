@@ -199,7 +199,7 @@ export default function CreateClip() {
           form.append("gmap", googleMap);
           form.append("video", selectedImage);
 
-          fetch("http:localhost:3000/clips/post", {
+          fetch("https://eventradar-teal.vercel.app/clips/post", {
             method: "POST",
             body: form,
           });

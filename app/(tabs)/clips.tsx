@@ -35,7 +35,9 @@ export default function Clips() {
 
   const getClips = async () => {
     try {
-      const response = await fetch("http://localhost:3000/clips/get");
+      const response = await fetch(
+        "https://eventradar-teal.vercel.app/clips/get"
+      );
       const json = await response.json();
       setData(json);
     } catch (error) {
