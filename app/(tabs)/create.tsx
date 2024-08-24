@@ -7,9 +7,12 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { upload } from "cloudinary-react-native";
+import Snackbar from "react-native-snackbar";
+import Toast from "react-native-root-toast";
 
 import ApiVideoUploader from "@api.video/react-native-video-uploader";
 import { Video } from "expo-av";
+import { ToastService } from "react-native-toastier";
 
 export default function CreateClip() {
   const {
@@ -55,7 +58,9 @@ export default function CreateClip() {
   };
 
   const [image, setImage] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(
+    "https://res.cloudinary.com/dpjgixhil/video/upload/v1724514119/dzbpafk4ycxumvc0wopf.mp4"
+  );
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -66,17 +71,14 @@ export default function CreateClip() {
 
     console.log(result);
 
-    ApiVideoUploader.uploadWithUploadToken(
-      "to13LBTwe2jdHyx0RRED6Y29",
-      result.assets![0].uri
-    )
-      .then((value) => {
-        console.log(value);
-      })
-      .catch((e: any) => {
-        console.log(e);
-        // Manages error here
-      });
+    const videos = [
+      "https://res.cloudinary.com/dpjgixhil/video/upload/v1724513861/youtube_qS1vsKZ_Ing_1280x720_h264_gbwyrg.mp4",
+      "https://res.cloudinary.com/dpjgixhil/video/upload/v1724514033/qxxcq4zx9zau40cz971y.mp4",
+      "https://res.cloudinary.com/dpjgixhil/video/upload/v1724514110/qpy7wlizwt9ijnudg06u.mp4",
+      "https://res.cloudinary.com/dpjgixhil/video/upload/v1724514119/dzbpafk4ycxumvc0wopf.mp4",
+    ];
+
+    setSelectedImage(videos[Math.floor(Math.random() * 4)]);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -92,7 +94,7 @@ export default function CreateClip() {
           fontFamily: "Inter_600Black",
         }}
       >
-        Organizer name
+        What activity you currently hold?
       </Text>
       <TextInput
         style={{
@@ -173,7 +175,7 @@ export default function CreateClip() {
           onChangeGoogleMap(text);
         }}
       />
-
+      {/* 
       <Button
         title="Hellooo"
         onPress={() =>
@@ -185,10 +187,44 @@ export default function CreateClip() {
             gmaps: googleMap,
           })
         }
-      />
+      /> */}
       <Button title="Pick an image from camera roll" onPress={pickImage} />
       <Pressable
-        onPress={handleSubmit((value) => console.log(value))}
+        onPress={async () => {
+          const form = new FormData();
+          form.append("organizer", organizer);
+          form.append("date", date.toString());
+          form.append("startAt", timeStart.toString());
+          form.append("endAt", timeEnd.toString());
+          form.append("gmap", googleMap);
+          form.append("video", selectedImage);
+
+          fetch("http:localhost:3000/clips/post", {
+            method: "POST",
+            body: form,
+          });
+
+          let toast = Toast.show("Event upload successful!", {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+            containerStyle: {
+              borderRadius: 20,
+              paddingHorizontal: 6,
+              width: 260,
+              marginTop: 20,
+            },
+            backgroundColor: "#379777",
+            textColor: "#FFFFFF",
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0,
+          });
+
+          setTimeout(function () {
+            Toast.hide(toast);
+          }, 500);
+        }}
         style={{
           backgroundColor: "#FF8834",
           marginTop: 10,
@@ -197,7 +233,9 @@ export default function CreateClip() {
           alignItems: "center",
         }}
       >
-        <Text style={{ alignSelf: "center", marginVertical: 20 }}>Heheh</Text>
+        <Text style={{ alignSelf: "center", marginVertical: 20 }}>
+          Share event!
+        </Text>
       </Pressable>
     </View>
   );

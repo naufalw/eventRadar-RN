@@ -10,7 +10,7 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
-
+import { RootSiblingParent } from "react-native-root-siblings";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -32,10 +32,12 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DarkTheme}>
-      <Stack initialRouteName="(tabs)">
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </ThemeProvider>
+    <RootSiblingParent>
+      <ThemeProvider value={DarkTheme}>
+        <Stack initialRouteName="(tabs)">
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
+    </RootSiblingParent>
   );
 }

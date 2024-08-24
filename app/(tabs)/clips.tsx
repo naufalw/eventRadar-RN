@@ -35,12 +35,9 @@ export default function Clips() {
 
   const getClips = async () => {
     try {
-      const response = await fetch(
-        "https://eventradar-teal.vercel.app/clips/get"
-      );
+      const response = await fetch("http://localhost:3000/clips/get");
       const json = await response.json();
-      console.log(json);
-      setData(json.videos);
+      setData(json);
     } catch (error) {
       console.error(error);
     } finally {
@@ -64,7 +61,7 @@ export default function Clips() {
         renderItem={({ item, index }) => (
           <Item item={item} shouldPlay={index === currentViewableItemIndex} />
         )}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.url}
         pagingEnabled
         horizontal={false}
         showsVerticalScrollIndicator={false}
@@ -88,6 +85,7 @@ const Item = ({ item, shouldPlay }: { shouldPlay: boolean; item: string }) => {
 
     if (shouldPlay) {
       video.current.playAsync();
+      console.log(item);
     } else {
       video.current.pauseAsync();
     }
@@ -104,7 +102,6 @@ const Item = ({ item, shouldPlay }: { shouldPlay: boolean; item: string }) => {
     });
     return unsubscribe;
   }, [navigation]);
-
   return (
     <Pressable
       onPress={() =>
@@ -121,7 +118,9 @@ const Item = ({ item, shouldPlay }: { shouldPlay: boolean; item: string }) => {
       >
         <Video
           ref={video}
-          source={{ uri: item }}
+          source={{
+            uri: item.url,
+          }}
           style={styles.video}
           isLooping
           resizeMode={ResizeMode.COVER}
