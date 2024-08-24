@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   Pressable,
+  RefreshControl,
 } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import React, { useEffect, useRef, useState } from "react";
@@ -19,6 +20,8 @@ export default function Clips() {
       setCurrentViewableItemIndex(viewableItems[0].index ?? 0);
     }
   };
+
+  let x = false;
 
   const [currentViewableItemIndex, setCurrentViewableItemIndex] = useState(0);
   const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 };
@@ -46,6 +49,16 @@ export default function Clips() {
         horizontal={false}
         showsVerticalScrollIndicator={false}
         viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+        refreshControl={
+          <RefreshControl
+            refreshing={x}
+            onRefresh={() =>
+              fetch("http://localhost:3000/clips/get").then((response) =>
+                console.log(response.body)
+              )
+            }
+          />
+        }
       />
     </View>
   );

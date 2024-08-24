@@ -3,6 +3,7 @@ import { Pressable } from "react-native";
 import { Inter_900Black, useFonts } from "@expo-google-fonts/inter";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,8 +23,10 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack initialRouteName="(tabs)">
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <ThemeProvider value={DarkTheme}>
+      <Stack initialRouteName="(tabs)">
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </ThemeProvider>
   );
 }

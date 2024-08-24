@@ -2,16 +2,20 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs, router } from "expo-router";
 import { Button, Pressable } from "react-native";
 
+import { Clapperboard, TicketPlus, Radar } from "lucide-react-native";
+import React from "react";
+
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: "black",
-          borderTopColor: "#FFFFFF",
+          backgroundColor: "#121212",
+          borderTopColor: "#121212",
+          height: 90,
         },
-        tabBarActiveTintColor: "#FFFFFF",
+        tabBarActiveTintColor: "#FF8834",
       }}
     >
       <Tabs.Screen
@@ -19,7 +23,7 @@ export default function TabLayout() {
         options={{
           title: "Clips",
           headerTitleAlign: "left",
-
+          headerTitle: "Nearby Events",
           headerBackgroundContainerStyle: {
             backgroundColor: "black",
             opacity: 0.1,
@@ -32,9 +36,7 @@ export default function TabLayout() {
           },
           headerStyle: { backgroundColor: "#000000" },
           headerTransparent: true,
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Clapperboard color={color} />,
         }}
       />
       <Tabs.Screen
@@ -45,9 +47,7 @@ export default function TabLayout() {
           headerTitleStyle: {
             fontFamily: "Inter_900Black",
           },
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="plus" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <TicketPlus color={color} />,
         }}
       />
       <Tabs.Screen
@@ -58,9 +58,7 @@ export default function TabLayout() {
           headerTitleStyle: {
             fontFamily: "Inter_900Black",
           },
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="user" color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Radar color={color} />,
         }}
       />
     </Tabs>
