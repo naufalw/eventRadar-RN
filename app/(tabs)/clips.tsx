@@ -29,17 +29,37 @@ export default function Clips() {
     { viewabilityConfig, onViewableItemsChanged },
   ]);
 
-  const videos = [
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-  ];
-  return (
+  const [isLoading, setLoading] = useState(true);
+
+  const [data, setData] = useState<[]>([]);
+
+  const getClips = async () => {
+    try {
+      const response = await fetch(
+        "https://eventradar-teal.vercel.app/clips/get"
+      );
+      const json = await response.json();
+      console.log(json);
+      setData(json.videos);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getClips();
+  }, []);
+
+  return isLoading ? (
+    <View>
+      <Text>Loading...</Text>
+    </View>
+  ) : (
     <View style={styles.container}>
       <FlatList
-        data={videos}
+        data={data}
         style={{ zIndex: 0 }}
         renderItem={({ item, index }) => (
           <Item item={item} shouldPlay={index === currentViewableItemIndex} />
@@ -49,16 +69,7 @@ export default function Clips() {
         horizontal={false}
         showsVerticalScrollIndicator={false}
         viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
-        refreshControl={
-          <RefreshControl
-            refreshing={x}
-            onRefresh={() =>
-              fetch("http://localhost:3000/clips/get").then((response) =>
-                console.log(response.body)
-              )
-            }
-          />
-        }
+        refreshControl={<RefreshControl refreshing={x} onRefresh={getClips} />}
       />
     </View>
   );
